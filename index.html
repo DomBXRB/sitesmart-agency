@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="SiteSmart builds SEO-optimized websites for contractors in New Mexico, Arizona, and Texas. Get found on Google and win more local jobs." />
+  <meta name="description" content="SiteSmart builds SEO-optimized websites for contractors in New Mexico, Arizona, and Texas. One contractor per trade per city. Don't pay until you're top 3." />
   <title>SiteSmart.agency — Contractor Websites That Rank</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,15 +12,20 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0a0c10;
-      --surface:   #111318;
-      --surface2:  #181b22;
-      --border:    #1e2230;
-      --accent:    #f97316;
-      --accent-h:  #ea6a0a;
-      --text:      #f1f3f9;
-      --muted:     #8b93a7;
-      --green:     #22c55e;
+      --bg:       #0a0c10;
+      --surface:  #111318;
+      --surface2: #181b22;
+      --border:   #1e2230;
+      --accent:   #f97316;
+      --accent-h: #ea6a0a;
+      --text:     #f1f3f9;
+      --muted:    #8b93a7;
+      --green:    #22c55e;
+      --green-bg: rgba(34,197,94,0.08);
+      --green-bd: rgba(34,197,94,0.25);
+      --red:      #ef4444;
+      --red-bg:   rgba(239,68,68,0.08);
+      --red-bd:   rgba(239,68,68,0.25);
     }
 
     html { scroll-behavior: smooth; }
@@ -33,7 +38,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── NAV ─────────────────────────────────────────── */
+    /* ── NAV ───────────────────────────────────────── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -41,14 +46,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.1rem 2rem;
-      background: rgba(10, 12, 16, 0.85);
-      backdrop-filter: blur(12px);
+      padding: 1rem 2rem;
+      background: rgba(10,12,16,0.88);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
 
     .logo {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--text);
@@ -56,19 +61,19 @@
     }
     .logo span { color: var(--accent); }
 
-    nav a.nav-cta {
+    .nav-cta {
       background: var(--accent);
       color: #fff;
       font-weight: 600;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       padding: 0.5rem 1.1rem;
       border-radius: 6px;
       text-decoration: none;
       transition: background 0.2s;
     }
-    nav a.nav-cta:hover { background: var(--accent-h); }
+    .nav-cta:hover { background: var(--accent-h); }
 
-    /* ── HERO ────────────────────────────────────────── */
+    /* ── HERO ──────────────────────────────────────── */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -76,21 +81,18 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 7rem 1.5rem 5rem;
+      padding: 8rem 1.5rem 5rem;
       position: relative;
       overflow: hidden;
     }
 
-    /* subtle radial glow behind headline */
     .hero::before {
       content: '';
       position: absolute;
-      top: 20%;
-      left: 50%;
+      top: 15%; left: 50%;
       transform: translateX(-50%);
-      width: 700px;
-      height: 400px;
-      background: radial-gradient(ellipse, rgba(249,115,22,0.14) 0%, transparent 70%);
+      width: 700px; height: 380px;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.13) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -98,135 +100,249 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      background: rgba(249,115,22,0.12);
-      border: 1px solid rgba(249,115,22,0.3);
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.28);
       color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
       padding: 0.35rem 0.9rem;
       border-radius: 99px;
       margin-bottom: 1.8rem;
     }
-    .badge::before { content: '●'; font-size: 0.5rem; }
+    .badge::before { content: '●'; font-size: 0.45rem; }
 
     h1 {
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-size: clamp(2.6rem, 6.5vw, 4.5rem);
       font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1.08;
-      max-width: 820px;
-      margin-bottom: 1.4rem;
+      letter-spacing: -0.045em;
+      line-height: 1.06;
+      max-width: 800px;
+      margin-bottom: 1.1rem;
     }
     h1 em {
       font-style: normal;
       color: var(--accent);
     }
 
-    .subheadline {
-      font-size: clamp(1rem, 2.2vw, 1.25rem);
+    .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
       color: var(--muted);
-      max-width: 560px;
-      margin-bottom: 2.5rem;
-      font-weight: 400;
+      max-width: 520px;
+      margin-bottom: 2.8rem;
     }
 
-    .cta-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.9rem;
+    /* ── AVAILABILITY WIDGET ───────────────────────── */
+    .widget {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.8rem 1.8rem;
+      width: 100%;
+      max-width: 520px;
+      text-align: left;
     }
 
-    .btn-primary {
-      display: inline-block;
+    .widget-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .widget-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .widget-fields { grid-template-columns: 1fr; }
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .widget select,
+    .widget input[type="text"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.6rem 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.8rem;
+      pointer-events: none;
+    }
+
+    .widget select:focus,
+    .widget input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+
+    .widget input[type="text"]::placeholder { color: var(--muted); }
+
+    .widget select option { background: #1a1d24; }
+
+    .btn-check {
+      width: 100%;
       background: var(--accent);
       color: #fff;
-      font-size: 1.05rem;
+      font-family: inherit;
+      font-size: 0.95rem;
       font-weight: 700;
-      padding: 0.9rem 2.2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 0 0 0 rgba(249,115,22,0);
+      padding: 0.72rem 1.5rem;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
     }
-    .btn-primary:hover {
+    .btn-check:hover {
       background: var(--accent-h);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(249,115,22,0.35);
+      transform: translateY(-1px);
+    }
+    .btn-check:active { transform: none; }
+
+    /* ── WIDGET RESULT ─────────────────────────────── */
+    .widget-result {
+      display: none;
+      margin-top: 1rem;
+      border-radius: 8px;
+      padding: 1.1rem 1.2rem;
+      animation: fadeSlide 0.25s ease;
+    }
+    .widget-result.show { display: block; }
+    .widget-result.available {
+      background: var(--green-bg);
+      border: 1px solid var(--green-bd);
+    }
+    .widget-result.taken {
+      background: var(--red-bg);
+      border: 1px solid var(--red-bd);
     }
 
-    .cta-note {
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-headline {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .available .result-headline { color: var(--green); }
+    .taken .result-headline     { color: var(--red); }
+
+    .result-sub {
       font-size: 0.8rem;
       color: var(--muted);
+      margin-bottom: 0.9rem;
     }
-    .cta-note strong { color: var(--green); }
 
-    /* ── SOCIAL PROOF BAR ───────────────────────────── */
-    .proof-bar {
+    .btn-result {
+      display: inline-block;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-result:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .available .btn-result {
+      background: var(--accent);
+      color: #fff;
+    }
+    .taken .btn-result {
+      background: transparent;
+      border: 1px solid var(--red-bd);
+      color: var(--red);
+    }
+
+    /* ── STATS BAR ─────────────────────────────────── */
+    .stats-bar {
       background: var(--surface);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      padding: 1.4rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-    }
-
-    .proof-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.15rem;
-    }
-    .proof-item .num {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.03em;
-    }
-    .proof-item .label {
-      font-size: 0.75rem;
+      padding: 1.1rem 1.5rem;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 600;
       color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
+    .stats-bar span { color: var(--accent); margin: 0 0.5rem; }
 
-    /* ── HOW IT WORKS ───────────────────────────────── */
-    section { padding: 5rem 1.5rem; }
+    /* ── SHARED SECTION STYLES ─────────────────────── */
+    section { padding: 5.5rem 1.5rem; }
 
     .section-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--accent);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.55rem;
     }
 
     h2 {
-      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
       font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
+      letter-spacing: -0.035em;
+      line-height: 1.12;
       margin-bottom: 0.8rem;
     }
 
     .section-sub {
       color: var(--muted);
-      max-width: 500px;
-      margin-bottom: 3rem;
+      max-width: 480px;
+      font-size: 0.95rem;
     }
 
+    .centered { text-align: center; }
+    .centered .section-sub { margin: 0 auto; }
+    .max-w { max-width: 900px; margin: 0 auto; }
+
+    /* ── HOW IT WORKS ──────────────────────────────── */
     .steps {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      max-width: 900px;
-      margin: 0 auto;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.4rem;
+      margin-top: 3rem;
     }
 
     .step {
@@ -236,16 +352,16 @@
       padding: 1.8rem 1.5rem;
       transition: border-color 0.2s;
     }
-    .step:hover { border-color: rgba(249,115,22,0.4); }
+    .step:hover { border-color: rgba(249,115,22,0.35); }
 
     .step-num {
-      width: 2.2rem;
-      height: 2.2rem;
-      border-radius: 8px;
-      background: rgba(249,115,22,0.15);
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 7px;
+      background: rgba(249,115,22,0.13);
       color: var(--accent);
       font-weight: 800;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -261,9 +377,10 @@
     .step p {
       font-size: 0.875rem;
       color: var(--muted);
+      line-height: 1.65;
     }
 
-    /* ── WHY US ─────────────────────────────────────── */
+    /* ── WHY SITESMART ─────────────────────────────── */
     .why {
       background: var(--surface);
       border-top: 1px solid var(--border);
@@ -271,78 +388,56 @@
     }
 
     .why-inner {
-      max-width: 900px;
+      max-width: 820px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start;
     }
 
-    @media (max-width: 640px) { .why-inner { grid-template-columns: 1fr; } }
+    .why-statement {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      margin-bottom: 2.4rem;
+      color: var(--text);
+    }
+    .why-statement em {
+      font-style: normal;
+      color: var(--accent);
+    }
 
-    .check-list {
+    .why-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-top: 1.5rem;
+      gap: 1.1rem;
     }
 
-    .check-list li {
+    .why-list li {
       display: flex;
-      gap: 0.75rem;
-      font-size: 0.95rem;
+      align-items: flex-start;
+      gap: 0.9rem;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.5;
     }
 
-    .check-list li::before {
-      content: '✓';
+    .why-list li .check {
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 50%;
+      background: var(--green-bg);
+      border: 1px solid var(--green-bd);
       color: var(--green);
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 0.05rem;
-    }
-
-    .states-box {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.8rem;
-    }
-
-    .states-box h3 {
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1rem;
-    }
-
-    .state-tags {
+      font-size: 0.7rem;
+      font-weight: 800;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 1.4rem;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
     }
 
-    .state-tag {
-      background: rgba(249,115,22,0.1);
-      border: 1px solid rgba(249,115,22,0.25);
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 0.85rem;
-      padding: 0.35rem 0.9rem;
-      border-radius: 6px;
-    }
-
-    .markets {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    /* ── CTA SECTION ────────────────────────────────── */
+    /* ── CTA SECTION ───────────────────────────────── */
     .cta-section {
       text-align: center;
       padding: 6rem 1.5rem;
@@ -352,9 +447,9 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      max-width: 680px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 3.5rem 2rem;
+      padding: 3.5rem 2.2rem;
       position: relative;
       overflow: hidden;
     }
@@ -362,38 +457,54 @@
     .cta-card::before {
       content: '';
       position: absolute;
-      top: -60px; left: 50%; transform: translateX(-50%);
-      width: 400px; height: 200px;
-      background: radial-gradient(ellipse, rgba(249,115,22,0.12) 0%, transparent 70%);
+      top: -50px; left: 50%;
+      transform: translateX(-50%);
+      width: 420px; height: 180px;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.11) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    .cta-card h2 { margin-bottom: 0.75rem; }
-    .cta-card p { color: var(--muted); margin-bottom: 2rem; }
+    .cta-card h2 { margin-bottom: 0.7rem; }
 
-    /* ── FOOTER ─────────────────────────────────────── */
+    .cta-card p {
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--accent-h);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(249,115,22,0.32);
+    }
+
+    /* ── FOOTER ────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 1.8rem 1.5rem;
+      padding: 1.6rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.6rem;
     }
-
-    footer .logo { font-size: 1rem; }
 
     footer p {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--muted);
     }
-
-    /* ── CENTERS ────────────────────────────────────── */
-    .centered { text-align: center; }
-    .centered .section-sub { margin-left: auto; margin-right: auto; }
-
-    .max-w { max-width: 900px; margin: 0 auto; }
   </style>
 </head>
 <body>
@@ -401,119 +512,184 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="logo">SiteSmart<span>.</span>agency</a>
-    <a href="#preview" class="nav-cta">Get Free Preview</a>
+    <a href="#cta" class="nav-cta">Get Free Preview</a>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="badge">NM · AZ · TX Contractor Websites</div>
-    <h1>We Build Contractor Websites<br>That <em>Rank</em></h1>
-    <p class="subheadline">
-      Get to the top of Google in your local market — and keep the leads coming in.
-      No fluff. Just sites built to win.
-    </p>
-    <div class="cta-group">
-      <a href="#preview" class="btn-primary">Get Your Free Preview →</a>
-      <p class="cta-note"><strong>No commitment.</strong> We'll build a preview of your site for free.</p>
+    <div class="badge">NM · AZ · TX · Exclusive Spots</div>
+    <h1>Contractor Websites<br>That <em>Rank</em></h1>
+    <p class="hero-sub">We work with one contractor per trade per city across NM, AZ and TX</p>
+
+    <!-- AVAILABILITY WIDGET -->
+    <div class="widget">
+      <p class="widget-title">Check City Availability</p>
+      <div class="widget-fields">
+        <div>
+          <label class="field-label" for="trade">Trade</label>
+          <div class="select-wrap">
+            <select id="trade">
+              <option value="" disabled selected>Select trade…</option>
+              <option>Tree Removal</option>
+              <option>HVAC</option>
+              <option>Roofing</option>
+              <option>Plumbing</option>
+              <option>Electrical</option>
+              <option>Solar</option>
+              <option>Landscaping</option>
+              <option>Concrete</option>
+              <option>Fencing</option>
+              <option>Irrigation</option>
+              <option>Pressure Washing</option>
+              <option>Painting</option>
+              <option>Flooring</option>
+              <option>General Contractor</option>
+              <option>Pool Service</option>
+              <option>Pest Control</option>
+              <option>Garage Doors</option>
+              <option>Foundation Repair</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="city">City</label>
+          <input type="text" id="city" placeholder="e.g. Albuquerque" autocomplete="off" />
+        </div>
+      </div>
+      <button class="btn-check" onclick="checkAvailability()">Check Availability</button>
+
+      <!-- RESULT -->
+      <div class="widget-result" id="result"></div>
     </div>
   </section>
 
-  <!-- SOCIAL PROOF BAR -->
-  <div class="proof-bar">
-    <div class="proof-item">
-      <span class="num">120+</span>
-      <span class="label">Contractor Sites Launched</span>
-    </div>
-    <div class="proof-item">
-      <span class="num">#1</span>
-      <span class="label">Avg. Google Ranking (90 days)</span>
-    </div>
-    <div class="proof-item">
-      <span class="num">3 States</span>
-      <span class="label">NM · AZ · TX Coverage</span>
-    </div>
-    <div class="proof-item">
-      <span class="num">2 Weeks</span>
-      <span class="label">Avg. Launch Time</span>
-    </div>
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    1 Contractor Per Trade Per City
+    <span>|</span> NM · AZ · TX
+    <span>|</span> Live in 2 Weeks
+    <span>|</span> Free Preview Included
   </div>
 
   <!-- HOW IT WORKS -->
   <section class="centered">
     <div class="max-w">
       <p class="section-label">How It Works</p>
-      <h2>From Zero to #1 in Three Steps</h2>
-      <p class="section-sub">We handle everything — design, copy, and SEO — so you can focus on the job site.</p>
+      <h2>Three Steps to the Top of Google</h2>
+      <p class="section-sub">No guesswork. No upfront risk. Just results.</p>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
-          <h3>Get Your Free Preview</h3>
-          <p>We build a real mockup of your site before you spend a dime. See exactly what you're getting.</p>
+          <h3>Check Your City</h3>
+          <p>See if your trade and city are still open. We only work with one contractor per slot — so availability is limited.</p>
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <h3>We Optimize for Google</h3>
-          <p>Every page is built for local SEO — targeting the cities and trades where you want to win work.</p>
+          <h3>See Your Free Preview</h3>
+          <p>We build a real preview of your site before you commit to anything. See exactly how it will look and rank — at zero cost.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <h3>Leads Start Rolling In</h3>
-          <p>Go live in under two weeks and start showing up where homeowners search for contractors.</p>
+          <h3>We Build It. You Pay When You Rank.</h3>
+          <p>We build and optimize your site. You don't pay until you're in the top 3 results for your city and trade keywords.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHY US -->
+  <!-- WHY SITESMART -->
   <section class="why">
     <div class="why-inner">
-      <div>
-        <p class="section-label">Why SiteSmart</p>
-        <h2>Built for Contractors,<br>Not Corporate</h2>
-        <p class="section-sub" style="margin-bottom:0;">We only work with trades and home service companies — so we know exactly what it takes to rank in your market.</p>
-        <ul class="check-list">
-          <li>SEO-first build — not bolted on after the fact</li>
-          <li>Mobile-optimized and lightning fast</li>
-          <li>Local service area pages for every city you serve</li>
-          <li>Google Business Profile setup included</li>
-          <li>Ongoing ranking reports so you see the proof</li>
-          <li>No long-term contracts — earn your business every month</li>
-        </ul>
-      </div>
-      <div>
-        <div class="states-box">
-          <h3>Markets We Serve</h3>
-          <div class="state-tags">
-            <span class="state-tag">New Mexico</span>
-            <span class="state-tag">Arizona</span>
-            <span class="state-tag">Texas</span>
-          </div>
-          <p class="markets">
-            <strong style="color:var(--text)">New Mexico:</strong> Albuquerque, Santa Fe, Rio Rancho, Las Cruces<br>
-            <strong style="color:var(--text)">Arizona:</strong> Phoenix, Tucson, Scottsdale, Mesa, Chandler<br>
-            <strong style="color:var(--text)">Texas:</strong> Dallas, Houston, San Antonio, Austin, El Paso
-          </p>
-        </div>
-      </div>
+      <p class="section-label">Why SiteSmart</p>
+      <p class="why-statement">Don't Pay Till<br>You're <em>Top 3</em></p>
+      <ul class="why-list">
+        <li>
+          <span class="check">✓</span>
+          <span>Built specifically for contractors — not generic templates</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span>Local SEO from day one, targeting the cities and trades you care about</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span>One contractor per trade per city — we never compete our own sites against each other</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span>Free site preview before you commit to anything</span>
+        </li>
+        <li>
+          <span class="check">✓</span>
+          <span>Live in 2 weeks from the day you say go</span>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <!-- FINAL CTA -->
-  <section id="preview" class="cta-section">
+  <!-- CTA -->
+  <section id="cta" class="cta-section">
     <div class="cta-card">
       <p class="section-label">Free Preview</p>
-      <h2>See Your New Site Before You Buy</h2>
-      <p>Tell us your trade and service area — we'll build a custom preview and show you exactly how you'll rank. Zero cost, zero obligation.</p>
+      <h2>See Your Site Before You Pay</h2>
+      <p>Tell us your trade and service area and we'll build you a free preview. No commitment.</p>
       <a href="mailto:hello@sitesmart.agency?subject=Free%20Preview%20Request" class="btn-primary">Get Your Free Preview →</a>
-      <p style="margin-top:1rem; font-size:0.8rem; color:var(--muted);">Or call us at <a href="tel:+15055550100" style="color:var(--accent); text-decoration:none;">(505) 555-0100</a></p>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <a href="#" class="logo">SiteSmart<span>.</span>agency</a>
-    <p>© 2026 SiteSmart Agency · Serving NM, AZ &amp; TX contractors</p>
+    <p>© 2026 SiteSmart Agency · NM · AZ · TX</p>
   </footer>
 
+  <script>
+    function normalize(str) {
+      return str.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function checkAvailability() {
+      const trade = document.getElementById('trade').value;
+      const city  = document.getElementById('city').value.trim();
+      const result = document.getElementById('result');
+
+      if (!trade) {
+        alert('Please select a trade.');
+        return;
+      }
+      if (!city) {
+        alert('Please enter a city.');
+        return;
+      }
+
+      const isTaken =
+        normalize(trade) === 'tree removal' &&
+        normalize(city)  === 'clovis';
+
+      result.className = 'widget-result show ' + (isTaken ? 'taken' : 'available');
+
+      if (isTaken) {
+        result.innerHTML = `
+          <p class="result-headline">This slot is currently taken</p>
+          <p class="result-sub">Clovis Tree Removal is already reserved. Enter your email and we'll notify you if it opens up.</p>
+          <a href="mailto:hello@sitesmart.agency?subject=Waitlist%3A%20Clovis%20Tree%20Removal" class="btn-result">Join Waitlist</a>
+        `;
+      } else {
+        const displayCity = city.replace(/\b\w/g, c => c.toUpperCase());
+        result.innerHTML = `
+          <p class="result-headline">Great news — ${displayCity} is available for ${trade}</p>
+          <p class="result-sub">Get a free preview of what your site could look like — no commitment required.</p>
+          <a href="mailto:hello@sitesmart.agency?subject=Free%20Preview%3A%20${encodeURIComponent(displayCity)}%20${encodeURIComponent(trade)}" class="btn-result">Get Your Free Preview</a>
+        `;
+      }
+
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Allow Enter key to trigger check
+    document.getElementById('city').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkAvailability();
+    });
+  </script>
 </body>
 </html>
