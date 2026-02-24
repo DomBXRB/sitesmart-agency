@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SiteSmart builds SEO-optimized websites for contractors in New Mexico, Arizona, and Texas. Get found on Google and win more local jobs." />
+  <title>SiteSmart.agency — Contractor Websites That Rank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0c10;
+      --surface:   #111318;
+      --surface2:  #181b22;
+      --border:    #1e2230;
+      --accent:    #f97316;
+      --accent-h:  #ea6a0a;
+      --text:      #f1f3f9;
+      --muted:     #8b93a7;
+      --green:     #22c55e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2rem;
+      background: rgba(10, 12, 16, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    nav a.nav-cta {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.5rem 1.1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    nav a.nav-cta:hover { background: var(--accent-h); }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle radial glow behind headline */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(249,115,22,0.12);
+      border: 1px solid rgba(249,115,22,0.3);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 99px;
+      margin-bottom: 1.8rem;
+    }
+    .badge::before { content: '●'; font-size: 0.5rem; }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      max-width: 820px;
+      margin-bottom: 1.4rem;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .subheadline {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0.9rem 2.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 rgba(249,115,22,0);
+    }
+    .btn-primary:hover {
+      background: var(--accent-h);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(249,115,22,0.35);
+    }
+
+    .cta-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .cta-note strong { color: var(--green); }
+
+    /* ── SOCIAL PROOF BAR ───────────────────────────── */
+    .proof-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .proof-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+    }
+    .proof-item .num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+    }
+    .proof-item .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── HOW IT WORKS ───────────────────────────────── */
+    section { padding: 5rem 1.5rem; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      max-width: 500px;
+      margin-bottom: 3rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .step:hover { border-color: rgba(249,115,22,0.4); }
+
+    .step-num {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 8px;
+      background: rgba(249,115,22,0.15);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    /* ── WHY US ─────────────────────────────────────── */
+    .why {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .why-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (max-width: 640px) { .why-inner { grid-template-columns: 1fr; } }
+
+    .check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .check-list li {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    .check-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    .states-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem;
+    }
+
+    .states-box h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .state-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .state-tag {
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.25);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 6px;
+    }
+
+    .markets {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── CTA SECTION ────────────────────────────────── */
+    .cta-section {
+      text-align: center;
+      padding: 6rem 1.5rem;
+    }
+
+    .cta-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-card h2 { margin-bottom: 0.75rem; }
+    .cta-card p { color: var(--muted); margin-bottom: 2rem; }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    footer .logo { font-size: 1rem; }
+
+    footer p {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* ── CENTERS ────────────────────────────────────── */
+    .centered { text-align: center; }
+    .centered .section-sub { margin-left: auto; margin-right: auto; }
+
+    .max-w { max-width: 900px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">SiteSmart<span>.</span>agency</a>
+    <a href="#preview" class="nav-cta">Get Free Preview</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="badge">NM · AZ · TX Contractor Websites</div>
+    <h1>We Build Contractor Websites<br>That <em>Rank</em></h1>
+    <p class="subheadline">
+      Get to the top of Google in your local market — and keep the leads coming in.
+      No fluff. Just sites built to win.
+    </p>
+    <div class="cta-group">
+      <a href="#preview" class="btn-primary">Get Your Free Preview →</a>
+      <p class="cta-note"><strong>No commitment.</strong> We'll build a preview of your site for free.</p>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF BAR -->
+  <div class="proof-bar">
+    <div class="proof-item">
+      <span class="num">120+</span>
+      <span class="label">Contractor Sites Launched</span>
+    </div>
+    <div class="proof-item">
+      <span class="num">#1</span>
+      <span class="label">Avg. Google Ranking (90 days)</span>
+    </div>
+    <div class="proof-item">
+      <span class="num">3 States</span>
+      <span class="label">NM · AZ · TX Coverage</span>
+    </div>
+    <div class="proof-item">
+      <span class="num">2 Weeks</span>
+      <span class="label">Avg. Launch Time</span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="centered">
+    <div class="max-w">
+      <p class="section-label">How It Works</p>
+      <h2>From Zero to #1 in Three Steps</h2>
+      <p class="section-sub">We handle everything — design, copy, and SEO — so you can focus on the job site.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Get Your Free Preview</h3>
+          <p>We build a real mockup of your site before you spend a dime. See exactly what you're getting.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>We Optimize for Google</h3>
+          <p>Every page is built for local SEO — targeting the cities and trades where you want to win work.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Leads Start Rolling In</h3>
+          <p>Go live in under two weeks and start showing up where homeowners search for contractors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why">
+    <div class="why-inner">
+      <div>
+        <p class="section-label">Why SiteSmart</p>
+        <h2>Built for Contractors,<br>Not Corporate</h2>
+        <p class="section-sub" style="margin-bottom:0;">We only work with trades and home service companies — so we know exactly what it takes to rank in your market.</p>
+        <ul class="check-list">
+          <li>SEO-first build — not bolted on after the fact</li>
+          <li>Mobile-optimized and lightning fast</li>
+          <li>Local service area pages for every city you serve</li>
+          <li>Google Business Profile setup included</li>
+          <li>Ongoing ranking reports so you see the proof</li>
+          <li>No long-term contracts — earn your business every month</li>
+        </ul>
+      </div>
+      <div>
+        <div class="states-box">
+          <h3>Markets We Serve</h3>
+          <div class="state-tags">
+            <span class="state-tag">New Mexico</span>
+            <span class="state-tag">Arizona</span>
+            <span class="state-tag">Texas</span>
+          </div>
+          <p class="markets">
+            <strong style="color:var(--text)">New Mexico:</strong> Albuquerque, Santa Fe, Rio Rancho, Las Cruces<br>
+            <strong style="color:var(--text)">Arizona:</strong> Phoenix, Tucson, Scottsdale, Mesa, Chandler<br>
+            <strong style="color:var(--text)">Texas:</strong> Dallas, Houston, San Antonio, Austin, El Paso
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="preview" class="cta-section">
+    <div class="cta-card">
+      <p class="section-label">Free Preview</p>
+      <h2>See Your New Site Before You Buy</h2>
+      <p>Tell us your trade and service area — we'll build a custom preview and show you exactly how you'll rank. Zero cost, zero obligation.</p>
+      <a href="mailto:hello@sitesmart.agency?subject=Free%20Preview%20Request" class="btn-primary">Get Your Free Preview →</a>
+      <p style="margin-top:1rem; font-size:0.8rem; color:var(--muted);">Or call us at <a href="tel:+15055550100" style="color:var(--accent); text-decoration:none;">(505) 555-0100</a></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="logo">SiteSmart<span>.</span>agency</a>
+    <p>© 2026 SiteSmart Agency · Serving NM, AZ &amp; TX contractors</p>
+  </footer>
+
+</body>
+</html>
