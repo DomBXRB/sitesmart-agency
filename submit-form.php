@@ -1,18 +1,26 @@
 <?php
+require __DIR__ . '/phpmailer/Exception.php';
+require __DIR__ . '/phpmailer/PHPMailer.php';
+require __DIR__ . '/phpmailer/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 // Only accept POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: index.html');
     exit;
 }
 
-// ── Collect and sanitize inputs ──────────────────────
+// ── Collect and sanitize inputs ───────────────────────
 $business = strip_tags(trim($_POST['business'] ?? ''));
 $trade    = strip_tags(trim($_POST['trade']    ?? ''));
 $location = strip_tags(trim($_POST['location'] ?? ''));
 $phone    = strip_tags(trim($_POST['phone']    ?? ''));
 $email    = trim($_POST['email'] ?? '');
 
-// ── Validate ─────────────────────────────────────────
+// ── Validate ──────────────────────────────────────────
 if (!$business || !$trade || !$location || !$phone || !$email) {
     header('Location: index.html?error=missing');
     exit;
@@ -32,8 +40,7 @@ foreach ([$business, $trade, $location, $phone] as $field) {
     }
 }
 
-// ── Build email ───────────────────────────────────────
-$to      = 'dominicmadridseo@gmail.com, dominic.j.madrid.7@gmail.com';
+// ── Build email body ──────────────────────────────────
 $subject = "NEW PREVIEW REQUEST - {$business} - {$trade} - {$location}";
 
 $body  = "NEW PREVIEW REQUEST\n";
@@ -47,14 +54,34 @@ $body .= str_repeat('=', 48) . "\n";
 $body .= "Submitted     : " . date('Y-m-d H:i:s T') . "\n";
 $body .= "IP Address    : " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
 
-$headers  = "From: SiteSmart Agency <noreply@sitesmart.agency>\r\n";
-$headers .= "Reply-To: {$email}\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+// ── Send via SMTP ─────────────────────────────────────
+$mail = new PHPMailer(true);
 
-mail($to, $subject, $body, $headers);
+try {
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.hostinger.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'noreply@sitesmart.agency';
+    $mail->Password   = 'SMTP_PASSWORD_HERE'; // ← replace with your email password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port       = 465;
 
-// ── Log to file ───────────────────────────────────────
+    $mail->setFrom('noreply@sitesmart.agency', 'SiteSmart Agency');
+    $mail->addReplyTo($email, $business);
+    $mail->addAddress('dominicmadridseo@gmail.com');
+    $mail->addAddress('dominic.j.madrid.7@gmail.com');
+
+    $mail->Subject = $subject;
+    $mail->Body    = $body;
+
+    $mail->send();
+} catch (Exception $e) {
+    // Log the error but still redirect — don't expose details to the user
+    $err = date('Y-m-d H:i:s') . " | MAIL ERROR | " . $mail->ErrorInfo . "\n";
+    file_put_contents(__DIR__ . '/leads-log.txt', $err, FILE_APPEND | LOCK_EX);
+}
+
+// ── Log submission to file ────────────────────────────
 $log_line = implode(' | ', [
     date('Y-m-d H:i:s'),
     $business,
