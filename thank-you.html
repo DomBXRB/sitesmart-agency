@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview Request Received — SiteSmart.agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0c10;
+      --surface:  #111318;
+      --surface2: #181b22;
+      --border:   #1e2230;
+      --accent:   #f97316;
+      --accent-h: #ea6a0a;
+      --text:     #f1f3f9;
+      --muted:    #8b93a7;
+      --green:    #22c55e;
+      --green-bg: rgba(34,197,94,0.08);
+      --green-bd: rgba(34,197,94,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ───────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    /* ── MAIN ──────────────────────────────────────── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    main::before {
+      content: '';
+      position: absolute;
+      top: 20%; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(34,197,94,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 560px;
+      width: 100%;
+      padding: 3.5rem 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .icon {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background: var(--green-bg);
+      border: 1px solid var(--green-bd);
+      color: var(--green);
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.8rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--green-bg);
+      border: 1px solid var(--green-bd);
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .message {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 2.2rem;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .message strong { color: var(--text); }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 2rem;
+    }
+
+    .next-steps {
+      text-align: left;
+      margin-bottom: 2.2rem;
+    }
+
+    .next-steps p {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .next-steps ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .next-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .next-steps li .dot {
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 50%;
+      background: rgba(249,115,22,0.12);
+      color: var(--accent);
+      font-size: 0.65rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .btn-back {
+      display: inline-block;
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.7rem 1.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-back:hover { background: var(--border); border-color: var(--muted); }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    footer p { font-size: 0.76rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">SiteSmart<span>.</span>agency</a>
+  </nav>
+
+  <main>
+    <div class="card">
+      <div class="icon">✓</div>
+      <span class="tag">Request Received</span>
+      <h1>We're On It</h1>
+      <p class="message">
+        <strong>We're building your free preview now.</strong><br>
+        You'll receive a link within 24 hours.
+      </p>
+
+      <hr class="divider" />
+
+      <div class="next-steps">
+        <p>What happens next</p>
+        <ul>
+          <li>
+            <span class="dot">1</span>
+            <span>We build a real, custom preview of your site — no templates</span>
+          </li>
+          <li>
+            <span class="dot">2</span>
+            <span>We send you the link within 24 hours so you can see exactly what you're getting</span>
+          </li>
+          <li>
+            <span class="dot">3</span>
+            <span>If you love it, we launch and optimize — you don't pay until you're top 3</span>
+          </li>
+        </ul>
+      </div>
+
+      <a href="index.html" class="btn-back">← Back to SiteSmart.agency</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 SiteSmart Agency · NM · AZ · TX</p>
+  </footer>
+
+</body>
+</html>
