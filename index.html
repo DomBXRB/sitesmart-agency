@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -75,6 +76,18 @@
       transition: background 0.2s;
     }
     .nav-cta:hover { background: var(--accent-h); }
+
+    .nav-phone {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-phone:hover { color: var(--accent); }
+
+    @media (max-width: 560px) { .nav-phone { display: none; } }
 
     /* ── HERO ──────────────────────────────────────── */
     .hero {
@@ -320,6 +333,33 @@
     }
     .stats-bar span { color: var(--accent); margin: 0 0.5rem; }
 
+    /* ── SOCIAL PROOF STRIP ────────────────────────── */
+    .social-proof {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.7rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .social-proof .proof-dot {
+      display: inline-block;
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background: var(--green);
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      animation: pulse 2s infinite;
+    }
+    .social-proof strong { color: var(--text); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
     /* ── SHARED SECTION STYLES ─────────────────────── */
     section { padding: 5.5rem 1.5rem; }
 
@@ -434,6 +474,116 @@
       flex-shrink: 0;
       margin-top: 0.1rem;
     }
+
+    /* ── LEAD CAPTURE SECTION ──────────────────────── */
+    .lead-capture { padding: 5.5rem 1.5rem; }
+
+    .lc-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .lc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 640px) { .lc-grid { grid-template-columns: 1fr; } }
+
+    .lc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem 1.6rem;
+      transition: border-color 0.2s;
+    }
+    .lc-card:hover { border-color: rgba(249,115,22,0.35); }
+    .lc-card.accent-card { border-color: rgba(249,115,22,0.3); }
+
+    .lc-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .lc-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.55rem;
+      letter-spacing: -0.02em;
+    }
+
+    .lc-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.2rem;
+    }
+
+    .lc-examples {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .lc-examples li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .lc-examples li::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .lc-examples li strong { color: var(--text); font-weight: 600; }
+
+    .lc-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 0.2rem;
+    }
+
+    .lc-flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .lc-flow-num {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: rgba(249,115,22,0.13);
+      color: var(--accent);
+      font-size: 0.7rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    .lc-flow-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .lc-flow-text strong { color: var(--text); font-weight: 600; }
 
     /* ── CTA SECTION ───────────────────────────────── */
     .cta-section { text-align: center; padding: 6rem 1.5rem; }
@@ -636,6 +786,7 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="logo">SiteSmart<span>.</span>agency</a>
+    <a href="tel:+15053861190" class="nav-phone">(505) 386-1190</a>
     <button class="nav-cta" onclick="openModal()">Get Free Site Preview</button>
   </nav>
 
@@ -694,6 +845,12 @@
     <span>|</span> Free Preview Included
   </div>
 
+  <!-- SOCIAL PROOF -->
+  <div class="social-proof">
+    <span class="proof-dot"></span>
+    <strong>Already ranking #1</strong> for tree removal in Clovis, NM
+  </div>
+
   <!-- HOW IT WORKS -->
   <section class="centered">
     <div class="max-w">
@@ -750,6 +907,51 @@
     </div>
   </section>
 
+  <!-- LEAD CAPTURE TOOLS -->
+  <section class="lead-capture">
+    <div class="lc-inner">
+      <p class="section-label">Every Site Includes</p>
+      <h2>Built-In Lead Capture Tools</h2>
+      <p class="section-sub">Your site doesn't just rank — it turns visitors into leads automatically, around the clock.</p>
+      <div class="lc-grid">
+
+        <div class="lc-card">
+          <span class="lc-icon">🧮</span>
+          <h3>Trade-Specific Cost Estimator</h3>
+          <p>Every site comes with a custom cost calculator built for your exact trade. Not a generic form — a real estimator tailored to how your business quotes work.</p>
+          <ul class="lc-examples">
+            <li><strong>Tree Removal</strong> → Tree Removal Cost Estimator</li>
+            <li><strong>HVAC</strong> → HVAC System Quote Calculator</li>
+            <li><strong>Roofing</strong> → Roof Replacement Estimator</li>
+            <li><strong>Plumbing</strong> → Plumbing Repair Cost Guide</li>
+            <li><strong>Electrical</strong> → Electrical Work Price Estimator</li>
+          </ul>
+        </div>
+
+        <div class="lc-card accent-card">
+          <span class="lc-icon">⚡</span>
+          <h3>Casual Browsers Become Leads</h3>
+          <p>When a visitor uses the calculator, they enter their name, phone, and email to receive their estimate. You get notified the moment someone completes it.</p>
+          <div class="lc-flow">
+            <div class="lc-flow-step">
+              <div class="lc-flow-num">1</div>
+              <p class="lc-flow-text"><strong>Visitor uses the estimator</strong> — they answer a few questions about their project</p>
+            </div>
+            <div class="lc-flow-step">
+              <div class="lc-flow-num">2</div>
+              <p class="lc-flow-text"><strong>They enter their contact info</strong> to get their estimate sent to them</p>
+            </div>
+            <div class="lc-flow-step">
+              <div class="lc-flow-num">3</div>
+              <p class="lc-flow-text"><strong>You get notified instantly</strong> — name, number, project details, ready to call</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section id="cta" class="cta-section">
     <div class="cta-card">
@@ -763,6 +965,7 @@
   <!-- FOOTER -->
   <footer>
     <a href="#" class="logo">SiteSmart<span>.</span>agency</a>
+    <a href="tel:+15053861190" style="color:var(--muted);font-size:0.82rem;font-weight:600;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">(505) 386-1190</a>
     <p>© 2026 SiteSmart Agency · NM · AZ · TX</p>
   </footer>
 
@@ -826,18 +1029,21 @@
   <script>
     /* ── MODAL ─────────────────────────────────────── */
     function openModal(prefillTrade, prefillCity) {
-      if (prefillTrade) {
+      // Fall back to whatever is currently selected in the availability widget
+      const trade = prefillTrade || document.getElementById('trade').value || '';
+      const city  = prefillCity  || document.getElementById('city').value.trim() || '';
+
+      if (trade) {
         const sel = document.getElementById('m-trade');
         for (let i = 0; i < sel.options.length; i++) {
-          if (sel.options[i].text === prefillTrade) {
-            sel.selectedIndex = i;
-            break;
-          }
+          if (sel.options[i].text === trade) { sel.selectedIndex = i; break; }
         }
       }
-      if (prefillCity) {
-        document.getElementById('m-location').value = prefillCity;
+      if (city) {
+        const displayCity = city.replace(/\b\w/g, c => c.toUpperCase());
+        document.getElementById('m-location').value = displayCity;
       }
+
       document.getElementById('modal').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
