@@ -139,15 +139,51 @@ PROMPT;
         CURLOPT_POSTFIELDS => $payload,
     ]);
 
-    $raw  = curl_exec($ch);
-    $err  = curl_error($ch);
+    $raw      = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
     curl_close($ch);
 
-    if ($err || !$raw) return null;
+    $logFile = __DIR__ . '/leads-log.txt';
+
+    if ($curlErr) {
+        file_put_contents($logFile,
+            date('Y-m-d H:i:s') . " | CLAUDE CURL ERROR | {$curlErr}\n",
+            FILE_APPEND | LOCK_EX);
+        return null;
+    }
+
+    if (!$raw) {
+        file_put_contents($logFile,
+            date('Y-m-d H:i:s') . " | CLAUDE ERROR | HTTP {$httpCode} | Empty response body\n",
+            FILE_APPEND | LOCK_EX);
+        return null;
+    }
+
+    if ($httpCode !== 200) {
+        file_put_contents($logFile,
+            date('Y-m-d H:i:s') . " | CLAUDE ERROR | HTTP {$httpCode} | " . $raw . "\n",
+            FILE_APPEND | LOCK_EX);
+        return null;
+    }
 
     $data = json_decode($raw, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        file_put_contents($logFile,
+            date('Y-m-d H:i:s') . " | CLAUDE ERROR | JSON parse failed | " . $raw . "\n",
+            FILE_APPEND | LOCK_EX);
+        return null;
+    }
+
     $text = $data['content'][0]['text'] ?? null;
-    if (!$text) return null;
+
+    if (!$text) {
+        file_put_contents($logFile,
+            date('Y-m-d H:i:s') . " | CLAUDE ERROR | No content in response | " . json_encode($data) . "\n",
+            FILE_APPEND | LOCK_EX);
+        return null;
+    }
 
     // Strip markdown code fences if Claude wrapped the output
     if (preg_match('/```(?:html)?\s*([\s\S]+?)\s*```/i', $text, $m)) {
