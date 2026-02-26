@@ -225,10 +225,35 @@ function deployToNetlify(string $html, string $slug, string $token): ?string
     $siteUrl = $site['ssl_url'] ?? $site['url'] ?? "https://{$slug}.netlify.app";
 
     // 2. Package HTML into a zip
+    // - index.html        : the generated contractor site
+    // - _headers          : Netlify plain-text headers file (most reliable content-type fix)
+    // - netlify.toml      : belt-and-suspenders toml headers config
+    $netlifyHeaders = <<<HEADERS
+/index.html
+  Content-Type: text/html; charset=UTF-8
+
+/*
+  Content-Type: text/html; charset=UTF-8
+HEADERS;
+
+    $netlifyToml = <<<TOML
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Content-Type = "text/html; charset=UTF-8"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Content-Type = "text/html; charset=UTF-8"
+TOML;
+
     $tmpZip = sys_get_temp_dir() . '/netlify_' . uniqid('', true) . '.zip';
     $zip = new ZipArchive();
     if ($zip->open($tmpZip, ZipArchive::CREATE) !== true) return null;
-    $zip->addFromString('index.html', $html);
+    $zip->addFromString('index.html',   $html);
+    $zip->addFromString('_headers',     $netlifyHeaders);
+    $zip->addFromString('netlify.toml', $netlifyToml);
     $zip->close();
 
     // 3. Upload zip as a deploy
