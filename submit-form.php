@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config.php';
 require __DIR__ . '/phpmailer/Exception.php';
 require __DIR__ . '/phpmailer/PHPMailer.php';
 require __DIR__ . '/phpmailer/SMTP.php';
@@ -32,7 +33,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Prevent header injection in any field
 foreach ([$business, $trade, $location, $phone] as $field) {
     if (preg_match('/[\r\n]/', $field)) {
         header('Location: index.html?error=invalid');
@@ -40,7 +40,7 @@ foreach ([$business, $trade, $location, $phone] as $field) {
     }
 }
 
-// ── Build email body ──────────────────────────────────
+// ── Build notification email ──────────────────────────
 $subject = "NEW PREVIEW REQUEST - {$business} - {$trade} - {$location}";
 
 $body  = "NEW PREVIEW REQUEST\n";
@@ -54,15 +54,14 @@ $body .= str_repeat('=', 48) . "\n";
 $body .= "Submitted     : " . date('Y-m-d H:i:s T') . "\n";
 $body .= "IP Address    : " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . "\n";
 
-// ── Send via SMTP ─────────────────────────────────────
+// ── Send notification via SMTP ────────────────────────
 $mail = new PHPMailer(true);
-
 try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.hostinger.com';
     $mail->SMTPAuth   = true;
     $mail->Username   = 'noreply@sitesmart.agency';
-    $mail->Password   = 'SMTP_PASSWORD_HERE'; // ← replace with your email password
+    $mail->Password   = SMTP_PASSWORD;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
 
@@ -70,29 +69,46 @@ try {
     $mail->addReplyTo($email, $business);
     $mail->addAddress('dominicmadridseo@gmail.com');
     $mail->addAddress('dominic.j.madrid.7@gmail.com');
-
     $mail->Subject = $subject;
     $mail->Body    = $body;
-
     $mail->send();
 } catch (Exception $e) {
-    // Log the error but still redirect — don't expose details to the user
-    $err = date('Y-m-d H:i:s') . " | MAIL ERROR | " . $mail->ErrorInfo . "\n";
-    file_put_contents(__DIR__ . '/leads-log.txt', $err, FILE_APPEND | LOCK_EX);
+    file_put_contents(__DIR__ . '/leads-log.txt',
+        date('Y-m-d H:i:s') . " | MAIL ERROR | " . $mail->ErrorInfo . "\n",
+        FILE_APPEND | LOCK_EX);
 }
 
-// ── Log submission to file ────────────────────────────
+// ── Log submission ────────────────────────────────────
 $log_line = implode(' | ', [
     date('Y-m-d H:i:s'),
-    $business,
-    $trade,
-    $location,
-    $phone,
-    $email,
+    $business, $trade, $location, $phone, $email,
 ]) . "\n";
-
 file_put_contents(__DIR__ . '/leads-log.txt', $log_line, FILE_APPEND | LOCK_EX);
 
-// ── Redirect to thank-you page ────────────────────────
+// ── Send redirect to browser NOW ──────────────────────
+// Close the HTTP connection so the user lands on thank-you.html
+// immediately, before the slow Claude + Netlify work begins.
 header('Location: thank-you.html');
-exit;
+header('Content-Length: 0');
+header('Connection: close');
+
+// Flush all output buffers to the client
+while (ob_get_level() > 0) {
+    ob_end_clean();
+}
+ob_start();
+ob_end_flush();
+flush();
+
+// On PHP-FPM (Hostinger default), this finalises the FastCGI request
+// and sends the response to the browser while execution continues below.
+if (function_exists('fastcgi_finish_request')) {
+    fastcgi_finish_request();
+}
+
+// ── Background: generate and deploy preview ───────────
+ignore_user_abort(true);  // keep running even after browser navigates away
+set_time_limit(300);      // allow up to 5 minutes for Claude + Netlify
+
+require_once __DIR__ . '/generate-preview.php';
+generatePreview($business, $trade, $location, $phone, $email);
