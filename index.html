@@ -588,38 +588,322 @@
 
     .lc-flow-text strong { color: var(--text); font-weight: 600; }
 
-    /* ── CTA SECTION ───────────────────────────────── */
-    .cta-section { text-align: center; padding: 6rem 1.5rem; }
+    /* ── SERVICES SECTION ──────────────────────────── */
+    .services-section { padding: 5.5rem 1.5rem; }
 
-    .cta-card {
+    .svc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      margin-top: 3rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .svc-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 3.5rem 2.2rem;
+      border-radius: 14px;
+      padding: 2.2rem 2rem;
+      transition: border-color 0.2s;
+    }
+    .svc-card:hover { border-color: rgba(249,115,22,0.4); }
+
+    .svc-card-top {
+      display: flex;
+      align-items: baseline;
+      gap: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .svc-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+
+    .svc-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .svc-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.4rem;
+      max-width: 680px;
+    }
+
+    .svc-checks {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.45rem 1.5rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .svc-checks li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.81rem;
+      color: var(--muted);
+    }
+
+    .svc-checks li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 800;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+    }
+
+    .btn-get-started {
+      display: inline-block;
+      background: transparent;
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border: 1px solid rgba(249,115,22,0.4);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .btn-get-started:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* ── PRICING SECTION ───────────────────────────── */
+    .pricing-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      max-width: 960px;
+      margin: 3rem auto 0;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+
+    .pricing-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .pricing-card.popular {
+      border-color: var(--accent);
+      background: var(--surface2);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.85rem;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    .pricing-name {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .pricing-card.popular .pricing-name { color: var(--accent); }
+
+    .pricing-price {
+      font-size: 2.8rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .pricing-period {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      margin-top: 0.2rem;
+    }
+
+    .pricing-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-bottom: 1.2rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-checks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+      margin-bottom: 1.8rem;
+    }
+
+    .pricing-checks li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      font-size: 0.81rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .pricing-checks li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 800;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .btn-pricing {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-pricing:hover { border-color: var(--muted); }
+
+    .pricing-card.popular .btn-pricing {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .pricing-card.popular .btn-pricing:hover { background: var(--accent-h); }
+
+    /* ── BOTTOM CTA ─────────────────────────────────── */
+    .bottom-cta {
+      text-align: center;
+      padding: 7rem 1.5rem;
       position: relative;
       overflow: hidden;
     }
 
-    .cta-card::before {
+    .bottom-cta::before {
       content: '';
       position: absolute;
-      top: -50px; left: 50%;
+      top: 0; left: 50%;
       transform: translateX(-50%);
-      width: 420px; height: 180px;
-      background: radial-gradient(ellipse, rgba(249,115,22,0.11) 0%, transparent 70%);
+      width: 600px; height: 320px;
+      background: radial-gradient(ellipse, rgba(249,115,22,0.1) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    .cta-card h2 { margin-bottom: 0.7rem; }
-
-    .cta-card p {
-      color: var(--muted);
-      max-width: 420px;
-      margin: 0 auto 2rem;
-      font-size: 0.95rem;
+    .cta-overline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.4rem;
     }
+
+    .cta-overline::before,
+    .cta-overline::after {
+      content: '';
+      width: 36px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      display: block;
+    }
+
+    .cta-overline span {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .bottom-cta h2 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+      max-width: 660px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bottom-cta-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.65;
+    }
+
+    .cta-btn-group {
+      display: flex;
+      gap: 0.9rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--muted); }
 
     /* ── FOOTER ────────────────────────────────────── */
     footer {
@@ -1083,13 +1367,167 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section id="cta" class="cta-section">
-    <div class="cta-card">
-      <p class="section-label">Free Preview</p>
-      <h2>See Your Site Before You Pay</h2>
-      <p>Tell us your trade and service area and we'll build you a free preview. No commitment.</p>
-      <button class="btn-primary" onclick="openModal()" style="margin-bottom:0;">Get Your Free Site Preview →</button>
+  <!-- SERVICES -->
+  <section class="services-section">
+    <div class="max-w">
+      <p class="section-label">What You Get</p>
+      <h2>Everything Included. Nothing Hidden.</h2>
+
+      <div class="svc-list">
+
+        <div class="svc-card">
+          <div class="svc-card-top">
+            <span class="svc-num">01</span>
+            <h3 class="svc-title">Custom Contractor Website Build</h3>
+          </div>
+          <p class="svc-desc">Built from scratch for your trade and city. No templates, no page builders. Clean fast HTML that Google loves.</p>
+          <ul class="svc-checks">
+            <li>Custom design for your specific trade</li>
+            <li>Mobile-first fully responsive</li>
+            <li>Click-to-call phone integration</li>
+            <li>Lead capture contact form</li>
+            <li>Service area pages for your city</li>
+            <li>Local SEO built in from day one</li>
+            <li>Google Analytics setup</li>
+            <li>Sitemap and robots.txt</li>
+            <li>SSL certificate setup</li>
+            <li>Live in 2 weeks</li>
+          </ul>
+          <button class="btn-get-started" onclick="openModal()">Get Started →</button>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-card-top">
+            <span class="svc-num">02</span>
+            <h3 class="svc-title">Built-In Cost Calculator</h3>
+          </div>
+          <p class="svc-desc">Every site comes with a working cost estimator built specifically for your trade. Visitors use it to get a price range, then enter their contact info to see the full estimate — turning browsers into booked leads automatically.</p>
+          <ul class="svc-checks">
+            <li>Custom calculator for your trade</li>
+            <li>Realistic price ranges based on job type</li>
+            <li>Lead capture built into the results</li>
+            <li>Mobile friendly and fast</li>
+            <li>Increases time on site which helps rankings</li>
+            <li>Sets you apart from every competitor in your city</li>
+          </ul>
+          <button class="btn-get-started" onclick="openModal()">Get Started →</button>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-card-top">
+            <span class="svc-num">03</span>
+            <h3 class="svc-title">Local SEO Optimization</h3>
+          </div>
+          <p class="svc-desc">We optimize every page to rank for the searches your customers are actually doing — your trade plus your city. We've already ranked sites to number 1 in local search.</p>
+          <ul class="svc-checks">
+            <li>Local keyword research and targeting</li>
+            <li>Title tags and meta descriptions</li>
+            <li>Schema markup for local business</li>
+            <li>City and service area targeting</li>
+            <li>Google Search Console setup</li>
+            <li>Internal linking structure</li>
+            <li>Image optimization and alt text</li>
+            <li>NAP consistency</li>
+          </ul>
+          <button class="btn-get-started" onclick="openModal()">Get Started →</button>
+        </div>
+
+        <div class="svc-card">
+          <div class="svc-card-top">
+            <span class="svc-num">04</span>
+            <h3 class="svc-title">Google Business Profile Setup</h3>
+          </div>
+          <p class="svc-desc">Your Google Business Profile is the most powerful free tool for getting local calls. Most contractors set it up wrong or not at all. We set it up right.</p>
+          <ul class="svc-checks">
+            <li>Profile claim and verification</li>
+            <li>Category and attribute optimization</li>
+            <li>Business description with keywords</li>
+            <li>Service listings and areas</li>
+            <li>Q&amp;A setup</li>
+            <li>Review strategy and templates</li>
+            <li>Google Posts setup</li>
+          </ul>
+          <button class="btn-get-started" onclick="openModal()">Get Started →</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section">
+    <div class="max-w">
+      <p class="section-label">Pricing</p>
+      <h2>Simple. One-Time. No Monthly Fees.</h2>
+      <div class="pricing-grid">
+
+        <div class="pricing-card">
+          <p class="pricing-name">Starter</p>
+          <p class="pricing-price">$500</p>
+          <p class="pricing-period">one-time</p>
+          <p class="pricing-desc">For contractors who need a clean professional website fast.</p>
+          <ul class="pricing-checks">
+            <li>Custom 5-page website</li>
+            <li>Mobile-first responsive design</li>
+            <li>Contact form with lead capture</li>
+            <li>Click-to-call integration</li>
+            <li>Basic on-page SEO</li>
+            <li>Google Analytics setup</li>
+            <li>SSL and sitemap</li>
+            <li>2-week delivery</li>
+          </ul>
+          <button class="btn-pricing" onclick="openModal()">Get Started</button>
+        </div>
+
+        <div class="pricing-card popular">
+          <div class="popular-badge">Most Popular</div>
+          <p class="pricing-name">Growth</p>
+          <p class="pricing-price">$800</p>
+          <p class="pricing-period">one-time</p>
+          <p class="pricing-desc">For contractors who want to rank on Google and get consistent local leads.</p>
+          <ul class="pricing-checks">
+            <li>Everything in Starter, plus</li>
+            <li>Built-in cost calculator for your trade</li>
+            <li>Full local SEO implementation</li>
+            <li>City and service area pages</li>
+            <li>Schema markup</li>
+            <li>Google Search Console setup</li>
+            <li>Keyword research</li>
+            <li>Competitor analysis</li>
+            <li>3-week delivery</li>
+          </ul>
+          <button class="btn-pricing" onclick="openModal()">Get Started</button>
+        </div>
+
+        <div class="pricing-card">
+          <p class="pricing-name">Dominate</p>
+          <p class="pricing-price">$1,200</p>
+          <p class="pricing-period">one-time</p>
+          <p class="pricing-desc">For contractors who want to own their city and dominate local search.</p>
+          <ul class="pricing-checks">
+            <li>Everything in Growth, plus</li>
+            <li>Up to 10 custom pages</li>
+            <li>Google Business Profile setup &amp; optimization</li>
+            <li>Full local citation building</li>
+            <li>Monthly ranking report for first 3 months</li>
+            <li>Priority support</li>
+            <li>30-day post-launch support</li>
+          </ul>
+          <button class="btn-pricing" onclick="openModal()">Get Started</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section id="cta" class="bottom-cta">
+    <div class="cta-overline"><span>Let's Talk</span></div>
+    <h2>Free Preview. Zero Pressure. Real Results.</h2>
+    <p class="bottom-cta-sub">Tell us your trade and city and we'll build you a free preview of your site. See exactly what you're getting before you spend a dime.</p>
+    <div class="cta-btn-group">
+      <button class="btn-primary" onclick="openModal()" style="margin-bottom:0;">Get My Free Site Preview</button>
+      <a href="tel:+15053861190" class="btn-outline">Call Us Now</a>
     </div>
   </section>
 
