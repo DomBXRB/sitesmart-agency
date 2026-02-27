@@ -56,73 +56,43 @@ function generatePreview(string $business, string $trade, string $location, stri
 function callClaudeForSite(string $business, string $trade, string $location, string $phone, string $apiKey): ?string
 {
     $prompt = <<<PROMPT
-Generate a complete, professional single-file HTML contractor website. Return ONLY raw HTML — no markdown, no code fences, no explanation.
+You are a professional web developer. Build a complete, single-file HTML contractor website for the following business:
 
-BUSINESS DETAILS:
-- Business Name: {$business}
-- Trade/Service: {$trade}
-- Location: {$location}
-- Phone: {$phone}
+Business Name: {$business}
+Trade/Service: {$trade}
+City/State: {$location}
+Phone: {$phone}
 
-DESIGN:
-- Dark background (#0f1117), white body text, orange accent (#f97316)
-- Modern, trustworthy feel — think professional contractor company
-- Google Fonts: Inter (import in <head>)
-- Fully responsive (mobile-first)
-- All CSS and JS must be inline in the single file
+DESIGN REQUIREMENTS - match this exact style:
+- Fonts: Import from Google Fonts - Bebas Neue for headlines, Oswald for subheadings, Barlow for body text
+- Color scheme: Dark background #1a1a2e, accent color based on trade (green for landscaping/tree, orange for HVAC, blue for plumbing, red for roofing, yellow for electrical, teal for irrigation, gray for concrete)
+- Bold impactful hero section with large Bebas Neue headline, parallax scroll effect using JavaScript
+- Scroll animations using Intersection Observer - cards fade in on scroll
 
-SECTIONS (in order):
+REQUIRED SECTIONS:
+1. Sticky nav with business name logo on left, phone number on right as clickable tel: link, bold and prominent
+2. Hero section - full viewport height, dark overlay, large bold headline like "[CITY] [TRADE] | LICENSED & INSURED", subheadline about serving the local area, two CTA buttons - Get Free Quote and Call Now
+3. Trust bar - 4 stats like Years Experience, Jobs Completed, Response Time, Satisfaction Rate - make up realistic numbers
+4. Services section - 4 service cards specific to their trade with icons, descriptions, and hover effects
+5. Cost Calculator section - build a WORKING JavaScript calculator specific to their trade. For tree removal: inputs for tree height, diameter, condition, proximity to structures. For HVAC: inputs for square footage, system type, age of current system. For roofing: inputs for roof size, material type, pitch. For plumbing: inputs for job type, urgency, home age. For all others create relevant inputs. Calculator should output an estimated price range and have a lead capture form asking for name, phone, email to see the full estimate.
+6. Why Choose Us section - 4 benefit cards with icons
+7. Service areas section - list 6-8 nearby cities around their location
+8. Contact section with phone, email placeholder, and a simple contact form
+9. Footer with business name, quick links, services list, contact info
 
-1. <head> — SEO meta tags:
-   - <title>{$business} | {$trade} in {$location}</title>
-   - Meta description targeting "{$trade} {$location}" and related keywords
-   - og:title, og:description, og:type
+SEO REQUIREMENTS:
+- Title tag: {$business} | Professional {$trade} Services in {$location}
+- Meta description targeting local keywords
+- H1 tag with city and trade keywords
+- LocalBusiness schema markup with their details
+- All images use descriptive alt tags with city and trade keywords
 
-2. HEADER/NAV — fixed, blurred background
-   - Left: business name as logo
-   - Right: phone number as tel: link + "Get a Free Quote" button (scrolls to contact)
-
-3. HERO — full-height section with orange radial glow
-   - H1: "[City]'s Trusted {$trade} Experts" (use the actual city from {$location})
-   - Subheadline: one sentence on reliability, response time, local expertise
-   - Two CTAs: "Get a Free Quote" (primary, orange) and "Call Now: {$phone}" (secondary, outline)
-
-4. SERVICES — dark card grid (3 columns desktop, 1 mobile)
-   - List exactly 6 services relevant to {$trade}
-   - Each card: icon (use relevant emoji), service name, 1-sentence description
-
-5. COST CALCULATOR — this is the most important section
-   - Headline: "[Trade] Cost Estimator"
-   - Build a WORKING JavaScript calculator specific to {$trade}:
-     * 3–4 input fields relevant to how {$trade} jobs are priced (use <select> dropdowns or range sliders)
-     * Real price ranges per option (e.g. for Tree Removal: small tree $300–500, medium $500–900, large $900–1500+)
-     * On input change, dynamically calculate and display a "Estimated Cost: $X–$Y" range
-     * Below the estimate: a lead capture mini-form asking for Name, Phone, Email with a "Send Me My Exact Quote" button
-     * The button should show a success message (JS, no backend needed)
-   - Dark card background, orange accent for the estimate display
-
-6. WHY CHOOSE US — 3 columns
-   - 3 trust signals specific to {$trade}: e.g. licensed & insured, X years experience, local family-owned, 24/7 availability, 5-star rated
-   - Icon + heading + 1 sentence each
-
-7. CONTACT — centered section
-   - Phone number displayed large (clickable tel: link)
-   - Simple contact form: Name, Phone, Email, Message textarea, Submit button
-   - On submit: show a "We'll call you within 1 hour!" success message (JS)
-
-8. FOOTER
-   - Business name, phone, location
-   - "© 2025 {$business}. All rights reserved."
-
-IMPORTANT:
-- The cost calculator MUST have real JavaScript logic with actual price calculations — not placeholder text
-- All section IDs must exist for scroll navigation: #services, #calculator, #contact
-- Return ONLY the complete HTML file starting with <!DOCTYPE html>
+Make it look professional, modern and impressive. This is a preview to sell the contractor on buying the full site. It should look better than what they currently have. Output ONLY the complete HTML file, nothing else.
 PROMPT;
 
     $payload = json_encode([
         'model'      => 'claude-sonnet-4-20250514',
-        'max_tokens' => 8000,
+        'max_tokens' => 8192,
         'messages'   => [['role' => 'user', 'content' => $prompt]],
     ]);
 
