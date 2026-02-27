@@ -85,30 +85,44 @@ $log_line = implode(' | ', [
 ]) . "\n";
 file_put_contents(__DIR__ . '/leads-log.txt', $log_line, FILE_APPEND | LOCK_EX);
 
-// ── Send redirect to browser NOW ──────────────────────
-// Close the HTTP connection so the user lands on thank-you.html
-// immediately, before the slow Claude + Netlify work begins.
+// ── Ajax path: run synchronously, return JSON ─────────
+// When the form is submitted via fetch() with ajax=1, we run the
+// generation inline and return the preview URL so the browser can
+// display the iframe immediately.
+if (($_POST['ajax'] ?? '') === '1') {
+    ignore_user_abort(true);
+    set_time_limit(300);
+
+    header('Content-Type: application/json');
+
+    require_once __DIR__ . '/generate-preview.php';
+    $previewUrl = generatePreview($business, $trade, $location, $phone, $email);
+
+    echo json_encode([
+        'success'  => $previewUrl !== null,
+        'url'      => $previewUrl,
+        'business' => $business,
+        'trade'    => $trade,
+    ]);
+    exit;
+}
+
+// ── Non-ajax path: redirect immediately, generate in background ──
 header('Location: thank-you.html');
 header('Content-Length: 0');
 header('Connection: close');
 
-// Flush all output buffers to the client
-while (ob_get_level() > 0) {
-    ob_end_clean();
-}
+while (ob_get_level() > 0) { ob_end_clean(); }
 ob_start();
 ob_end_flush();
 flush();
 
-// On PHP-FPM (Hostinger default), this finalises the FastCGI request
-// and sends the response to the browser while execution continues below.
 if (function_exists('fastcgi_finish_request')) {
     fastcgi_finish_request();
 }
 
-// ── Background: generate and deploy preview ───────────
-ignore_user_abort(true);  // keep running even after browser navigates away
-set_time_limit(300);      // allow up to 5 minutes for Claude + Netlify
+ignore_user_abort(true);
+set_time_limit(300);
 
 require_once __DIR__ . '/generate-preview.php';
 generatePreview($business, $trade, $location, $phone, $email);

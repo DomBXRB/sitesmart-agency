@@ -782,6 +782,130 @@
       text-align: center;
       margin-top: 0.6rem;
     }
+
+    /* ── MODAL LOADING STATE ───────────────────────── */
+    .modal-loading {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 0 0.5rem;
+      text-align: center;
+      gap: 1.2rem;
+    }
+    .modal-loading.show { display: flex; }
+
+    .spinner {
+      width: 2.8rem;
+      height: 2.8rem;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .modal-loading-headline {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .modal-loading-msg {
+      font-size: 0.85rem;
+      color: var(--muted);
+      min-height: 1.2em;
+    }
+    .modal-loading-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* ── PREVIEW OVERLAY ───────────────────────────── */
+    .preview-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      flex-direction: column;
+      background: #0a0c10;
+    }
+    .preview-overlay.open { display: flex; }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1.5rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .preview-header-info { display: flex; flex-direction: column; gap: 0.15rem; }
+
+    .preview-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .preview-biz-name {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .preview-tagline {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .preview-header-actions {
+      display: flex;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .btn-want-site {
+      background: var(--accent);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.55rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-want-site:hover { background: var(--accent-h); }
+
+    .btn-close-preview {
+      background: var(--surface2);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-close-preview:hover { color: var(--text); border-color: var(--muted); }
+
+    #previewFrame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #fff;
+    }
   </style>
 </head>
 <body>
@@ -1030,13 +1154,36 @@
         <button type="submit" class="btn-modal-submit">Get My Free Preview →</button>
         <p class="modal-disclaimer">No credit card. No commitment. Just a free preview of your site.</p>
       </form>
+
+      <!-- Loading state shown while preview generates -->
+      <div class="modal-loading" id="modal-loading">
+        <div class="spinner"></div>
+        <p class="modal-loading-headline">Building Your Preview</p>
+        <p class="modal-loading-msg" id="modal-loading-msg">Generating your custom site…</p>
+        <p class="modal-loading-note">This takes about 60–90 seconds</p>
+      </div>
     </div>
+  </div>
+
+  <!-- PREVIEW OVERLAY -->
+  <div class="preview-overlay" id="previewOverlay">
+    <div class="preview-header">
+      <div class="preview-header-info">
+        <span class="preview-label">Your Free Site Preview</span>
+        <span class="preview-biz-name" id="previewBizName"></span>
+        <span class="preview-tagline">This is your preview — click below to get started</span>
+      </div>
+      <div class="preview-header-actions">
+        <button class="btn-want-site" onclick="wantThisSite()">I Want This Site</button>
+        <button class="btn-close-preview" onclick="closePreview()">✕ Close</button>
+      </div>
+    </div>
+    <iframe id="previewFrame" src="" title="Your site preview" allowfullscreen></iframe>
   </div>
 
   <script>
     /* ── MODAL ─────────────────────────────────────── */
     function openModal(prefillTrade, prefillCity) {
-      // Fall back to whatever is currently selected in the availability widget
       const trade = prefillTrade || document.getElementById('trade').value || '';
       const city  = prefillCity  || document.getElementById('city').value.trim() || '';
 
@@ -1047,9 +1194,11 @@
         }
       }
       if (city) {
-        const displayCity = city.replace(/\b\w/g, c => c.toUpperCase());
-        document.getElementById('m-location').value = displayCity;
+        document.getElementById('m-location').value = city.replace(/\b\w/g, c => c.toUpperCase());
       }
+
+      // Reset to form state (in case loading state was previously shown)
+      resetModalToForm();
 
       document.getElementById('modal').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -1064,9 +1213,92 @@
       if (e.target === document.getElementById('modal')) closeModal();
     }
 
+    function resetModalToForm() {
+      document.querySelector('.modal-form').style.display = '';
+      document.getElementById('modal-loading').classList.remove('show');
+      const btn = document.querySelector('.btn-modal-submit');
+      btn.disabled = false;
+      btn.textContent = 'Get My Free Preview →';
+    }
+
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') {
+        closeModal();
+        // Don't close preview with Escape — user might hit it accidentally
+      }
     });
+
+    /* ── MODAL FORM — fetch() submission ───────────── */
+    const loadingMessages = [
+      'Generating your custom site…',
+      'Writing your services section…',
+      'Building your cost calculator…',
+      'Adding local SEO markup…',
+      'Deploying to the web…',
+      'Almost ready…',
+    ];
+
+    document.querySelector('.modal-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const business = document.getElementById('m-business').value.trim();
+
+      // Show loading state
+      this.style.display = 'none';
+      const loading = document.getElementById('modal-loading');
+      loading.classList.add('show');
+
+      // Cycle through loading messages
+      let msgIdx = 0;
+      const msgEl = document.getElementById('modal-loading-msg');
+      msgEl.textContent = loadingMessages[0];
+      const msgTimer = setInterval(function() {
+        msgIdx = (msgIdx + 1) % loadingMessages.length;
+        msgEl.textContent = loadingMessages[msgIdx];
+      }, 8000);
+
+      const formData = new FormData(this);
+      formData.append('ajax', '1');
+
+      fetch('submit-form.php', { method: 'POST', body: formData })
+        .then(function(res) {
+          if (!res.ok) throw new Error('Server error ' + res.status);
+          return res.json();
+        })
+        .then(function(data) {
+          clearInterval(msgTimer);
+          closeModal();
+          if (data.url) {
+            showPreview(data.url, data.business || business);
+          } else {
+            window.location.href = 'thank-you.html';
+          }
+        })
+        .catch(function() {
+          clearInterval(msgTimer);
+          // Fallback: redirect to thank-you (non-ajax path already ran notification email)
+          window.location.href = 'thank-you.html';
+        });
+    });
+
+    /* ── PREVIEW OVERLAY ───────────────────────────── */
+    function showPreview(url, business) {
+      document.getElementById('previewBizName').textContent = business;
+      document.getElementById('previewFrame').src = url;
+      document.getElementById('previewOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePreview() {
+      document.getElementById('previewOverlay').classList.remove('open');
+      document.getElementById('previewFrame').src = '';
+      document.body.style.overflow = '';
+    }
+
+    function wantThisSite() {
+      closePreview();
+      openModal();
+    }
 
     /* ── AVAILABILITY WIDGET ───────────────────────── */
     function normalize(str) {
