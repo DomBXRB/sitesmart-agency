@@ -58,200 +58,73 @@ function generatePreview(string $business, string $trade, string $location, stri
 function callClaudeForSite(string $business, string $trade, string $location, string $phone, string $apiKey): ?string
 {
     $prompt = <<<PROMPT
-You are a professional web developer. Build a complete, single-file HTML contractor website. Follow every rule below exactly.
+You are a professional contractor website designer. Build a complete, single-file HTML website for the following business:
 
-BUSINESS DETAILS:
 Business Name: {$business}
 Trade/Service: {$trade}
 City/State: {$location}
 Phone: {$phone}
 
-══════════════════════════════════════
-ABSOLUTE RULES — NEVER VIOLATE THESE
-══════════════════════════════════════
-1. Output ONLY the raw HTML file. No markdown, no code fences, no explanation before or after.
-2. ZERO external images. No <img> tags pointing to any URL. Use ONLY inline SVG and CSS for all visuals.
-3. ZERO Intersection Observer. ZERO scroll-triggered animations. Do not write any JavaScript that adds classes on scroll or watches for elements entering the viewport.
-4. ZERO opacity:0 on any element at page load. Every element must be fully visible the instant the page loads. Do not use animation classes that start hidden.
-5. ZERO transform:translateY or fade-in effects that require JavaScript to trigger. CSS hover transitions are fine.
-6. The only external resources allowed are Google Fonts via a single <link> tag.
-7. All CSS and JavaScript must be inline in the single file.
+CRITICAL RULES:
+- Output ONLY raw HTML. No markdown, no explanation, no code fences.
+- NO external images whatsoever. Use only CSS gradients, shapes, and inline SVG icons.
+- NO JavaScript animations that hide content on load. NO Intersection Observer. NO opacity:0 on load. Everything must be visible immediately.
+- NO scroll-triggered animations. Content must show without scrolling.
+- All cards and sections must be fully visible and filled with content immediately.
 
-══════════════════════════════════════
-FONTS & COLORS
-══════════════════════════════════════
-Google Fonts import (put in <head>):
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+PREVIEW BAR - Add this as the very first element inside body, position sticky top 0, z-index 9999:
+A full-width bar above the nav. Background #1a1a1a, border-bottom 2px solid [accent color]. Text centered: '✦ This is your free site preview built by SiteSmart.agency' on the left, and on the right a bold button that says 'Claim This Site →' linking to https://sitesmart.agency with target blank. Make it look clean and professional, not spammy.
 
-- Headlines: Bebas Neue
-- Subheadings: Oswald
-- Body: Barlow
-- Page background: #1a1a2e
-- Card backgrounds: #16213e
-- Text: #f1f5f9 primary, #94a3b8 secondary
-- Accent color — choose based on trade:
-  * Tree Removal / Landscaping / Irrigation: #22c55e
-  * HVAC / Heating / Cooling: #f97316
-  * Plumbing: #3b82f6
-  * Roofing: #ef4444
-  * Electrical / Solar: #eab308
-  * Concrete / Fencing / Foundation: #9ca3af
-  * Painting: #8b5cf6
-  * Pest Control / Pool Service: #84cc16
-  * Garage Doors / General Contractor: #f97316
-  * All others: #f97316
+TRADE-SPECIFIC COLOR SCHEMES - Use exactly these colors based on the trade:
+- Tree Removal or Landscaping: primary #1a3a1a, secondary #2d5a27, accent #4a9e3f, text #f0f7ee, hero gradient from #0f2010 to #1a3a1a, card bg #1e3d1e
+- HVAC: primary #0d1b2a, secondary #1b3a5c, accent #2196f3, text #e8f4fd, hero gradient from #0a1628 to #1b3a5c, card bg #162840
+- Roofing: primary #1a1a1a, secondary #2d2d2d, accent #c0392b, text #f5f5f5, hero gradient from #0f0f0f to #2d2d2d, card bg #222222
+- Concrete or Flatwork: primary #1c1c1c, secondary #3d3530, accent #8b7355, text #f0ede8, hero gradient from #141210 to #3d3530, card bg #2a2520
+- Plumbing: primary #0a1628, secondary #1a3a5c, accent #0077b6, text #e8f4fd, hero gradient from #071020 to #1a3a5c, card bg #102030
+- Electrical: primary #0f0f0f, secondary #1a1a1a, accent #f0c419, text #ffffff, hero gradient from #0a0a0a to #1f1f1f, card bg #161616
+- Solar: primary #0d1b2a, secondary #1a3a4a, accent #f4a61c, text #e8f4fd, hero gradient from #081420 to #1a3a4a, card bg #142030
+- Fencing: primary #1e1a14, secondary #3d3020, accent #8b6914, text #f5f0e8, hero gradient from #140f08 to #3d3020, card bg #2a2218
+- Irrigation: primary #0a2018, secondary #1a4030, accent #00b894, text #e8fdf5, hero gradient from #061510 to #1a4030, card bg #102820
+- Pressure Washing: primary #0a1628, secondary #1a3a5c, accent #00b4d8, text #e8f8ff, hero gradient from #071020 to #1a3a5c, card bg #102030
+- Painting: primary #1a1510, secondary #2d2018, accent #e07b39, text #faf5f0, hero gradient from #120e08 to #2d2018, card bg #221a12
+- Pest Control: primary #0f1a0f, secondary #1a2d1a, accent #5a8a3c, text #f0f5f0, hero gradient from #0a120a to #1a2d1a, card bg #152015
+- Pool Service: primary #0a1e2d, secondary #0d3a5c, accent #00c6fb, text #e8f8ff, hero gradient from #061520 to #0d3a5c, card bg #0f2840
+- Garage Doors: primary #0f1520, secondary #1a2535, accent #4a90d9, text #e8eef5, hero gradient from #0a1018 to #1a2535, card bg #141e2d
+- Foundation Repair: primary #1a1510, secondary #2d2018, accent #8b6914, text #f5f0e8, hero gradient from #120e08 to #2d2018, card bg #221a12
+- General Contractor: primary #0f1520, secondary #1a2535, accent #d4af37, text #f5f0e8, hero gradient from #0a1018 to #1a2535, card bg #141e2d
 
-══════════════════════════════════════
-SECTION 1 — <head>
-══════════════════════════════════════
-- <title>{$business} | Professional {$trade} Services in {$location}</title>
-- Meta description: 150-160 chars targeting "{$trade} {$location}" and 2-3 related local keywords
-- JSON-LD LocalBusiness schema: name, telephone, address (use {$location}), serviceType: {$trade}
-- Google Fonts <link>
-- viewport meta
+REQUIRED SECTIONS - build all of these:
 
-══════════════════════════════════════
-SECTION 2 — STICKY NAV
-══════════════════════════════════════
-- position:fixed, top:0, full width, background:#0f0f1a, border-bottom: 1px solid rgba(255,255,255,0.08)
-- Left: business name in Bebas Neue 22px, accent color, no underline
-- Right: phone as <a href="tel:..."> in Oswald 700, 18px, accent color, no underline — make it large and obvious
-- Padding so body content starts below nav (use padding-top on body or a spacer div)
+1. STICKY NAV: Background primary color, business name as logo on left in bold accent color, phone number on right as clickable green pill button with phone icon. Height 60px.
 
-══════════════════════════════════════
-SECTION 3 — HERO (full viewport height)
-══════════════════════════════════════
-IMPORTANT: Build the background entirely with CSS — no images.
-- Base: background-color #0f0f1a
-- Layer a radial-gradient spotlight in the accent color at 12% opacity behind the text
-- Add 2-3 absolutely positioned blobs: div elements with border-radius:50%, accent color at 6-10% opacity, different sizes (300px, 500px, 200px), positioned at corners/edges
-- Add a subtle CSS grid overlay: background-image with two repeating linear-gradients at 1px width in rgba(255,255,255,0.03)
+2. HERO SECTION: Full viewport height minus nav. Background uses hero gradient with 3-4 large blurred CSS blob shapes for visual depth (use border-radius 50%, filter blur 80px, opacity 0.3). Large headline in Bebas Neue or Impact font: '[CITY] [TRADE] | LICENSED & INSURED'. Subheadline in normal weight about serving the local area. Two CTA buttons: solid accent color 'GET FREE QUOTE' and outlined 'CALL NOW'. Add a trust row of 4 badges below buttons: Licensed, Insured, Free Estimates, Same-Day Service.
 
-Hero text (all centered, vertically centered using flexbox):
-- Small uppercase label above h1: "[{$trade} Services]" in Oswald, accent color, letter-spacing:4px
-- H1 in Bebas Neue, 90px desktop/48px mobile, white, letter-spacing:3px — text: "[CITY] {$trade} | LICENSED & INSURED" (extract just the city name from {$location})
-- Subheadline in Oswald 20px, #94a3b8: one sentence about serving the local area with fast response
-- Two buttons: solid accent-color "Get Free Quote" (scrolls to #calculator) + outline white "Call Now: {$phone}" as a tel: link
+3. STATS BAR: Full width solid accent color background. 4 stats in white: '15+ Years Experience', '500+ Jobs Completed', '4.9★ Rating', '24/7 Emergency Service'. Large bold numbers, small label underneath.
 
-══════════════════════════════════════
-SECTION 4 — TRUST BAR
-══════════════════════════════════════
-- Full-width band, background: solid accent color (no transparency, no gradient)
-- Single row of 4 stats, evenly spaced, all white text
-- Each stat: number in Bebas Neue 42px, label in Barlow 13px uppercase letter-spacing:2px
-- Stats: "15+" / "Years Experience", "500+" / "Jobs Completed", "Same Day" / "Response Time", "100%" / "Satisfaction Rate"
-- No gaps, no empty space, flush edge to edge
+4. SERVICES SECTION: Background secondary color. Section title 'OUR [TRADE] SERVICES' in Bebas Neue. 4 service cards in a 2x2 grid. Each card: background card bg color, 1px accent border, inline SVG icon relevant to the service in accent color, bold service name, 2 sentence description. Services should be specific and realistic for the trade. Cards must be fully visible with no animation classes.
 
-══════════════════════════════════════
-SECTION 5 — SERVICES (4 cards)
-══════════════════════════════════════
-- Section heading in Bebas Neue 52px, centered
-- 2×2 grid, gap:24px, max-width:900px centered
-- Each card: background:#16213e, border: 1px solid accent color at 40% opacity, border-radius:12px, padding:28px
-- Card contains:
-  * Inline SVG icon (56×56, stroke accent color, trade-relevant — draw actual SVG paths, not emoji)
-  * Service name in Oswald 700 20px, white, margin-top:16px
-  * 2 sentence description in Barlow 15px, #94a3b8
-- CSS hover only: border-color brightens to full accent, translateY(-4px) — no JavaScript
-- All 4 cards fully visible immediately, no hidden state
+5. COST CALCULATOR: Background primary color. Title 'INSTANT PRICE ESTIMATE'. Build a fully working JavaScript calculator specific to the trade:
+- Tree Removal: dropdowns for tree height (under 20ft/20-40ft/40-60ft/over 60ft), tree diameter (under 6in/6-12in/12-24in/over 24in), condition (healthy/stressed/dead/hazardous), proximity (open area/near fence/near structure/near powerlines). Output price range.
+- HVAC: dropdowns for service type (repair/replacement/new install/maintenance), system type (central AC/heat pump/mini split/furnace), home size (under 1000sqft/1000-2000sqft/2000-3500sqft/over 3500sqft). Output price range.
+- Roofing: dropdowns for service type (repair/full replacement/inspection/new install), roof size (under 1000sqft/1000-2000sqft/2000-3500sqft/over 3500sqft), material (asphalt shingle/metal/tile/flat). Output price range.
+- Plumbing: dropdowns for service type (drain cleaning/leak repair/pipe replacement/water heater/fixture install), urgency (standard/urgent/emergency). Output price range.
+- Electrical: dropdowns for service type (panel upgrade/outlet install/wiring/lighting/EV charger), home age (new/1-20yrs/20-40yrs/40+yrs). Output price range.
+- For all other trades create 3 relevant dropdowns with realistic options and price ranges.
+Calculator output: Show a price range like '$450 - $800' in large accent color text. Below the result show a lead capture form: Name, Phone, Email fields and 'GET MY FULL ESTIMATE' button in accent color. Form submits to # for now.
 
-Choose 4 services highly relevant to {$trade}.
+6. WHY CHOOSE US: Background secondary color. 4 benefit cards in a row. Each card has inline SVG icon, bold title, short description. Benefits specific to the trade and city.
 
-══════════════════════════════════════
-SECTION 6 — COST CALCULATOR (id="calculator")
-══════════════════════════════════════
-- Section heading in Bebas Neue 52px, centered
-- Large card: background:#16213e, border: 2px solid accent, border-radius:16px, max-width:800px centered, padding:40px
+7. SERVICE AREAS: Background primary color. Title 'AREAS WE SERVE'. List 8 nearby cities as styled pills/badges in accent color border. Base the cities on the location provided.
 
-Build a FULLY WORKING JavaScript calculator. Use <select> dropdowns (no sliders). All dropdowns visible immediately.
+8. CONTACT SECTION: Background card bg color. Two columns: left side has business name, phone as large clickable number, email placeholder, hours. Right side has a simple contact form with Name, Phone, Message fields and a submit button.
 
-For TREE REMOVAL — 4 dropdowns:
-  * Tree Height: Under 20ft ($200 base) / 20-40ft ($450 base) / 40-60ft ($750 base) / Over 60ft ($1200 base)
-  * Trunk Diameter: Under 12in (×1.0) / 12-24in (×1.4) / Over 24in (×1.8)
-  * Condition: Healthy (×1.0) / Leaning (×1.2) / Dead/Diseased (×1.1) / Emergency (×1.5)
-  * Near Structures: No (×1.0) / Yes (×1.3)
-  * Low estimate = base × multipliers × 0.85, High = base × multipliers × 1.15
+9. FOOTER: Background #0a0a0a. Business name, tagline, quick links, services list, contact info. Copyright line at bottom.
 
-For HVAC — 4 dropdowns:
-  * Home Size: Under 1000sf ($2800 base) / 1000-1500sf ($3800 base) / 1500-2500sf ($5200 base) / Over 2500sf ($7500 base)
-  * System Type: Central AC (×1.0) / Heat Pump (×1.2) / Mini-Split (×0.85) / Furnace (×0.9)
-  * Job Type: Replace Existing (×1.0) / New Installation (×1.3) / Repair Only ($350-$850 flat, override base)
-  * Urgency: Scheduled (×1.0) / Same Day (×1.25)
+FONTS: Import from Google Fonts - Bebas Neue for all headlines and section titles, Barlow for body text.
 
-For ROOFING — 4 dropdowns:
-  * Roof Squares: Under 15 ($4500 base) / 15-25 ($7000 base) / 25-35 ($10000 base) / Over 35 ($14000 base)
-  * Material: 3-Tab Shingle (×1.0) / Architectural Shingle (×1.3) / Metal (×1.9) / Tile (×2.2)
-  * Pitch: Low/Flat (×1.0) / Medium (×1.15) / Steep (×1.35)
-  * Layers to Remove: 1 Layer (×1.0) / 2 Layers (×1.2)
+SEO: Proper title tag, meta description with city and trade keywords, H1 with city and trade, LocalBusiness schema markup with all their details.
 
-For PLUMBING — 4 dropdowns:
-  * Job Type: Leak Repair ($250 base) / Drain Cleaning ($175 base) / Water Heater ($900 base) / Pipe Replacement ($1800 base) / Fixture Install ($350 base)
-  * Urgency: Scheduled (×1.0) / Same Day (×1.3) / Emergency (×1.65)
-  * Home Age: Under 10 years (×1.0) / 10-30 years (×1.15) / Over 30 years (×1.35)
-  * Scope: Single Location (×1.0) / Multiple Areas (×1.6)
-
-For ELECTRICAL — 4 dropdowns:
-  * Job Type: Outlet/Switch ($150 base) / Panel Upgrade ($1800 base) / Whole Home Rewire ($8000 base) / Lighting Install ($400 base) / EV Charger ($650 base)
-  * Urgency: Scheduled (×1.0) / Same Day (×1.3) / Emergency (×1.6)
-  * Home Age: Under 10yr (×1.0) / 10-30yr (×1.1) / Over 30yr (×1.25)
-  * Scope: Single Room (×1.0) / Multiple Rooms (×1.5) / Whole Home (×2.2)
-
-For LANDSCAPING, IRRIGATION, CONCRETE, FENCING, PAINTING, SOLAR, POOL SERVICE, PEST CONTROL, GARAGE DOORS, FOUNDATION REPAIR, or any other trade — create 4 realistic dropdowns with price logic appropriate to how that trade bills work.
-
-CALCULATOR OUTPUT: On any dropdown change, immediately recalculate and update:
-- A large box with background: accent color at 15%, border: 1px solid accent, showing:
-  "Estimated Cost" label in Oswald 14px uppercase
-  Price range in Bebas Neue 52px accent color: "$X,XXX – $Y,YYY"
-- Disclaimer in Barlow 12px #94a3b8: "Final price depends on site conditions. Get your exact quote below."
-
-BELOW THE ESTIMATE — Lead capture form:
-- Heading in Oswald: "Get Your Exact Quote — Free"
-- 3 inputs side by side (stack on mobile): Name, Phone, Email — styled dark inputs with accent border on focus
-- Submit button: solid accent, full width, Oswald bold
-- On click: hide the form, show a success message: "✓ We'll call you within the hour with your exact quote!"
-
-══════════════════════════════════════
-SECTION 7 — WHY CHOOSE US (4 cards)
-══════════════════════════════════════
-- Section heading Bebas Neue 52px centered
-- 4 cards in a row (2×2 on mobile), same card style as services
-- Each card: inline SVG icon (48×48), heading Oswald 700 18px, 1 sentence Barlow 14px #94a3b8
-- Suggested trust signals: Licensed & Insured / Local Family-Owned / Free Estimates / Satisfaction Guaranteed
-- All cards visible immediately
-
-══════════════════════════════════════
-SECTION 8 — SERVICE AREAS
-══════════════════════════════════════
-- Simple section, dark bg, centered
-- Heading Bebas Neue 52px: "Areas We Serve"
-- List 7 cities near {$location} as pill badges: border: 1px solid accent, color: accent, background: accent at 8%, border-radius:99px, padding:8px 20px, Oswald 14px
-- Pills in a flex-wrap row, centered
-
-══════════════════════════════════════
-SECTION 9 — CONTACT (id="contact")
-══════════════════════════════════════
-- Centered section
-- Phone in Bebas Neue 56px, accent color, as <a href="tel:...">
-- Simple form: Name, Phone, Email, Message (textarea 4 rows), Submit button
-- Dark inputs, accent focus border
-- On submit: JS shows success message "We received your message and will call you within 1 hour!"
-
-══════════════════════════════════════
-SECTION 10 — FOOTER
-══════════════════════════════════════
-- Background #0f0f1a, top border: 1px solid rgba(255,255,255,0.08)
-- 3-column grid: [Logo + tagline + phone] [Quick Links: Services, Calculator, Areas, Contact] [Contact Info: address/location, phone, tagline]
-- Business name in Bebas Neue accent color
-- Copyright line at very bottom, centered, Barlow 13px #4a5568
-
-══════════════════════════════════════
-OUTPUT RULES
-══════════════════════════════════════
-- Output starts with <!DOCTYPE html> — nothing before it
-- Output ends with </html> — nothing after it
-- No placeholder comments like "<!-- add content here -->"
-- Fill every section with real, specific content for {$trade} in {$location}
-- Make it dense: no section should have large empty whitespace areas
+Output ONLY the complete HTML. Nothing else. No explanation.
 PROMPT;
 
     $payload = json_encode([
